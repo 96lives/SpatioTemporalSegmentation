@@ -5,8 +5,8 @@ import numpy as np
 import sys
 from lib.pc_utils import read_plyfile, save_point_cloud
 from concurrent.futures import ProcessPoolExecutor
-SCANNET_RAW_PATH = Path('/path/ScanNet_data/')
-SCANNET_OUT_PATH = Path('/path/scans_processed/')
+SCANNET_RAW_PATH = Path('./data/scannet')
+SCANNET_OUT_PATH = Path('./data/scannet_preprocessed/')
 TRAIN_DEST = 'train'
 TEST_DEST = 'test'
 SUBSETS = {TRAIN_DEST: 'scans', TEST_DEST: 'scans_test'}
@@ -18,6 +18,7 @@ BUGS = {
 }
 print('start preprocess')
 # Preprocess data.
+
 
 def handle_process(path):
         f = Path(path.split(',')[0])
@@ -34,9 +35,6 @@ def handle_process(path):
             assert np.allclose(pointcloud[:, :3], label[:, :3])
         else:  # Label may not exist in test case.
             label = np.zeros_like(pointcloud)
-        xyz = pointcloud[:, :3]
-        pool = ProcessPoolExecutor(max_workers=9)
-        all_points = np.empty((0, 3))
         out_f = phase_out_path / (f.name[:-len(POINTCLOUD_FILE)] + f.suffix)
         processed = np.hstack((pointcloud[:, :6], np.array([label[:, -1]]).T))
         save_point_cloud(processed, out_f, with_label=True, verbose=False)
@@ -49,9 +47,11 @@ for out_path, in_path in SUBSETS.items():
         path_list.append(str(f)+','+str(phase_out_path))
 
 pool = ProcessPoolExecutor(max_workers=20)
-result = list(pool.map(handle_process,path_list))
-for i in result:
-    pass
+result = list(pool.map(handle_process, path_list))
+'''
+for i in path_list:
+    handle_process(i)
+'''
 
 # Fix bug in the data.
 for files, bug_index in BUGS.items():

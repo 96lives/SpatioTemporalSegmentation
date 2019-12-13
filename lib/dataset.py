@@ -171,7 +171,8 @@ class VoxelizationDatasetBase(DictDataset, ABC):
     raise NotImplementedError
 
   def load_ply(self, index):
-    filepath = self.data_root / self.data_paths[index]
+    filepath = self.data_root / 'scene0420_00.ply'
+    # filepath = self.data_root / self.data_paths[index]
     return read_plyfile(filepath), None
 
   def __len__(self):
@@ -262,6 +263,7 @@ class VoxelizationDataset(VoxelizationDatasetBase):
       pointcloud = self.prevoxel_transform(pointcloud)
 
     coords, feats, labels = self.convert_mat2cfl(pointcloud)
+    __import__('pdb').set_trace()
     coords, feats, labels, transformation = self.voxelizer.voxelize(
         coords, feats, labels, center=center)
 
@@ -272,10 +274,12 @@ class VoxelizationDataset(VoxelizationDatasetBase):
       coords, feats, labels = self.target_transform(coords, feats, labels)
     if self.IGNORE_LABELS is not None:
       labels = np.array([self.label_map[x] for x in labels], dtype=np.int)
+    __import__('pdb').set_trace()
 
     return_args = [coords, feats, labels]
     if self.return_transformation:
       return_args.extend([pointcloud.astype(np.float32), transformation.astype(np.float32)])
+
     return tuple(return_args)
 
 

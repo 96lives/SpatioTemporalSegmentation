@@ -103,8 +103,8 @@ data_arg.add_argument('--val_batch_size', type=int, default=1)
 data_arg.add_argument('--test_batch_size', type=int, default=1)
 data_arg.add_argument('--cache_data', type=str2bool, default=False)
 data_arg.add_argument(
-    '--threads', type=int, default=1, help='num threads for train/test dataloader')
-data_arg.add_argument('--val_threads', type=int, default=1, help='num threads for val dataloader')
+    '--threads', type=int, default=0, help='num threads for train/test dataloader')
+data_arg.add_argument('--val_threads', type=int, default=0, help='num threads for val dataloader')
 data_arg.add_argument('--ignore_label', type=int, default=255)
 data_arg.add_argument('--return_transformation', type=str2bool, default=False)
 data_arg.add_argument('--ignore_duplicate_class', type=str2bool, default=False)
@@ -130,7 +130,7 @@ data_arg.add_argument('--temporal_rand_numseq', type=str2bool, default=False)
 data_arg.add_argument(
     '--scannet_path',
     type=str,
-    default='/home/chrischoy/datasets/scannet/scannet_preprocessed',
+    default='./data/scannet_preprocessed/train',
     help='Scannet online voxelization dataset root dir')
 
 data_arg.add_argument(
