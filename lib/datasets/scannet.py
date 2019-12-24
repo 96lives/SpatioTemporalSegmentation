@@ -169,3 +169,14 @@ class ScannetVoxelizationDataset(VoxelizationDataset):
 
 class ScannetVoxelization2cmDataset(ScannetVoxelizationDataset):
   VOXEL_SIZE = 0.02
+
+
+class ScannetVoxelizationBgDataset(ScannetVoxelization2cmDataset):
+    NUM_LABELS = 2
+    IGNORE_LABELS = []
+
+    def __getitem__(self, idx):
+        coords, input, target = ScannetVoxelizationDataset.__getitem__(self, idx)
+        target = (target != 0) & (target != 1) & (target != 255)
+        target = target.astype(int)
+        return tuple([coords, input, target])

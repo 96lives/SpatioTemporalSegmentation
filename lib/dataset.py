@@ -263,7 +263,6 @@ class VoxelizationDataset(VoxelizationDatasetBase):
       pointcloud = self.prevoxel_transform(pointcloud)
 
     coords, feats, labels = self.convert_mat2cfl(pointcloud)
-    __import__('pdb').set_trace()
     coords, feats, labels, transformation = self.voxelizer.voxelize(
         coords, feats, labels, center=center)
 
@@ -272,9 +271,8 @@ class VoxelizationDataset(VoxelizationDatasetBase):
       coords, feats, labels = self.input_transform(coords, feats, labels)
     if self.target_transform is not None:
       coords, feats, labels = self.target_transform(coords, feats, labels)
-    if self.IGNORE_LABELS is not None:
+    if self.IGNORE_LABELS is not None and len(self.IGNORE_LABELS) != 0:
       labels = np.array([self.label_map[x] for x in labels], dtype=np.int)
-    __import__('pdb').set_trace()
 
     return_args = [coords, feats, labels]
     if self.return_transformation:

@@ -1,13 +1,13 @@
 from .synthia import SynthiaCVPR15cmVoxelizationDataset, SynthiaCVPR30cmVoxelizationDataset, \
     SynthiaAllSequencesVoxelizationDataset, SynthiaTemporalVoxelizationDataset
 from .stanford import StanfordVoxelizationDataset, StanfordVoxelization2cmDataset
-from .scannet import ScannetVoxelizationDataset, ScannetVoxelization2cmDataset
+from .scannet import ScannetVoxelizationDataset, ScannetVoxelization2cmDataset, ScannetVoxelizationBgDataset
 
 DATASETS = [
     StanfordVoxelizationDataset, StanfordVoxelization2cmDataset, ScannetVoxelizationDataset,
     ScannetVoxelization2cmDataset, SynthiaCVPR15cmVoxelizationDataset,
     SynthiaCVPR30cmVoxelizationDataset, SynthiaTemporalVoxelizationDataset,
-    SynthiaAllSequencesVoxelizationDataset
+    SynthiaAllSequencesVoxelizationDataset, ScannetVoxelizationBgDataset
 ]
 
 
